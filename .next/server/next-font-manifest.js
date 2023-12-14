@@ -1,1 +1,0 @@
-self.__NEXT_FONT_MANIFEST="{\"pages\":{},\"app\":{\"/Users/Linda.Okorie-Kalu/Personal/product-feedback-app/src/app/layout\":[\"static/media/f85abf8f572b7d3b-s.p.woff2\"]},\"appUsingSizeAdjust\":true,\"pagesUsingSizeAdjust\":false}"
