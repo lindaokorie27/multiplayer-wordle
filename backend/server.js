@@ -5,19 +5,13 @@ const mongoose = require('mongoose');
 
 //establish connection to database
 mongoose.connect(
-    process.env.MONGODB_URI,
-    { useFindAndModify: false, useUnifiedTopology: true, useNewUrlParser: true, useCreateIndex: true},
-    (err) => {
-        if (err) return console.log("Error: ", err);
-        console.log("MongoDB Connection -- Ready state is:", mongoose.connection.readyState);
-    }
-);
+    process.env.MONGODB_URI);
 
 const app = express();
 
 app.use(express.json()); // parses incoming requests with JSON payloads
 
-const routes = require('./routes/feedback'); // import all routes
+const routes = require('./routes/request'); // import all routes
 
 app.use('/', routes); // added to use the routes
 
