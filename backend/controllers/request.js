@@ -1,4 +1,3 @@
-const { ObjectId } = require('mongodb');
 const Request = require('../models/request');
 
 const newRequest = (req, res, next) => {
