@@ -2,12 +2,17 @@ require('dotenv').config();
 
 const express = require("express");
 const mongoose = require('mongoose');
+const helmet = require('helmet');
+const compression = require('compression');
+
 
 //establish connection to database
 mongoose.connect(
     process.env.MONGODB_URI);
 
 const app = express();
+app.use(helmet());
+app.use(compression()); //Compress all routes
 
 app.use(express.json()); // parses incoming requests with JSON payloads
 
