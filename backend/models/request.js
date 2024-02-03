@@ -1,5 +1,9 @@
 const mongoose = require("mongoose");
-const User = require('./user');
+
+const UserSchema = new mongoose.Schema({
+    name: String,
+    username: String,
+});
 
 const RequestSchema = new mongoose.Schema({
     title: {type: String, required: true},
@@ -10,19 +14,11 @@ const RequestSchema = new mongoose.Schema({
     comments: [{ 
         id: mongoose.Schema.Types.UUID, 
         content: String, 
-        user: {
-            name: String,
-            username: String,
-            image: String
-        }, 
+        user: UserSchema, 
         replies: [{ 
             content: {type: String, required: true}, 
             replyingTo: {type: String, required: true}, 
-            user: {
-                name: String,
-                username: String,
-                image: String
-            }
+            user: UserSchema
         }]
     }]
 });
