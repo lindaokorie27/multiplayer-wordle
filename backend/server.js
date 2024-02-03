@@ -1,11 +1,13 @@
 require('dotenv').config();
 
 const express = require("express");
-const mongoose = require('mongoose');
+const connectToMongo = require('./database');
+const helmet = require('helmet');
+const compression = require('compression');
+
 
 //establish connection to database
-mongoose.connect(
-    process.env.MONGODB_URI);
+connectToMongo();
 
 const app = express();
 
