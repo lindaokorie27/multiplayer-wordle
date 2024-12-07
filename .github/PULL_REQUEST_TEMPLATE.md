@@ -1,7 +1,8 @@
-## Context
+## Describe your changes
 
-<!-- what did you do and why did you do it -->
+## Issue ticket number and link
 
-## Checklist
+## Checklist before requesting a review
 
-- [ ] The changes do not cause any breaking changes [optional]
+- [ ] I have performed a self-review of my code
+- [ ] If it is a core feature, I have added thorough tests.
