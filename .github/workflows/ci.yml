@@ -16,8 +16,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: pnpm
-          cache-dependency-path: pnpm-lock.yaml
 
       - name: Install dependencies
         # Tell pnpm to use cached downloads whenever possible instead of downloading from the server
@@ -38,8 +36,6 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: pnpm
-          cache-dependency-path: pnpm-lock.yaml
 
       - name: Lint package
         run: pnpm lint
@@ -59,7 +55,7 @@ jobs:
           node-version: 20
 
       - name: Install dependencies
-        run: pnpm install
+        run: pnpm i --prefer-offline
 
       - name: Build Storybook
         run: pnpm build-storybook
