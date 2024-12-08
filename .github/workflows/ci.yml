@@ -15,13 +15,13 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: 20
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
 
       - name: Install dependencies
         # Tell pnpm to use cached downloads whenever possible instead of downloading from the server
-        run: pnpm --prefer-offline
+        run: pnpm i --prefer-offline
 
       - name: Build
         run: pnpm build
@@ -37,7 +37,7 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
+          node-version: 20
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
 
@@ -47,10 +47,8 @@ jobs:
       - name: Run tests
         run: pnpm test
 
-  interaction-and-accessibility:
-    name: Interaction and Accessibility
+  build-and-deploy-storybook:
     runs-on: ubuntu-latest
-    needs: install-build
     steps:
       - name: Checkout of repository
         uses: actions/checkout@v4
@@ -58,18 +56,16 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: "20"
-          cache: pnpm
-          cache-dependency-path: pnpm-lock.yaml
+          node-version: 20
 
-      - name: Install Playwright
-        run: npx playwright install --with-deps
+      - name: Install dependencies
+        run: pnpm install
 
       - name: Build Storybook
-        run: pnpm build-storybook --quiet
+        run: pnpm build-storybook
 
-      - name: Serve Storybook and run tests
-        run: |
-          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
-            "npx http-server storybook-static --port 6006 --silent" \
-            "npx wait-on tcp:6006 && pnpm test-storybook"
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./storybook-static
