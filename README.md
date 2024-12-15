@@ -1,4 +1,11 @@
-This is the UI repo for the Mellow Meals App
+This is a wordle with a twist - two-player wordle!
+
+The rules are simple;
+
+- There are two players. Player 1 gives Player 2 a word to guess.
+- Player 2 goes through a typical wordle game with the number of guesses saved on the scoreboard.
+- The process repeats for 3 rounds per player.
+- The player with the lowest score wins!
 
 ## Getting Started
 

@@ -1,5 +1,7 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
+
+import SectionContainer from "@/components/SectionContainer";
 import "./globals.css";
 
 const geistSans = localFont({
@@ -26,9 +28,9 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} antialiased className="bg-white pl-[calc(100vw-100%)] text-black dark:bg-gray-950 dark:text-white"`}
       >
-        {children}
+        <SectionContainer>{children}</SectionContainer>
       </body>
     </html>
   );
