@@ -10,11 +10,11 @@ const Rules = () => {
 
   return (
     <div className="my-4">
-      <Button variant="link" className="my-5" onClick={handleGoBackClick}>
+      <Button variant="link" className="px-0 my-5" onClick={handleGoBackClick}>
         <ArrowLeft />
         Go Back
       </Button>
-      <main className="flex flex-col gap-8 row-start-2 items-center sm:items-start mb-3 py-3">
+      <div className="flex flex-col gap-8 row-start-2 items-center sm:items-start mb-3 py-3">
         <h1 className="font-extrabold text-3xl mb-2">Instructions</h1>
         <section id="objectives">
           <h2 className="font-bold text-xl">Objectives</h2>
@@ -127,20 +127,7 @@ const Rules = () => {
             <li>In case of a tie, both players are declared winners!</li>
           </ul>
         </section>
-      </main>
-      <footer className="flex-wrap items-center justify-items-center mt-3 py-2">
-        <p className="flex gap-1">
-          Created with &#x2764;&#xfe0f; by
-          <a
-            className="flex items-center underline hover:underline hover:underline-offset-4"
-            href="https://linkedin.com/in/linda-okorie"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Linda Okorie
-          </a>
-        </p>
-      </footer>
+      </div>
     </div>
   );
 };
