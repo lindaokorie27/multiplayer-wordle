@@ -1,10 +1,10 @@
 import { createContext, useReducer, Dispatch } from "react";
-import { gameReducer, initialState } from "./reducers";
-import { GameAction, GameState } from "./types";
+import { gameSessionsReducer } from "./reducers";
+import { GameSessionsAction, GameSessionsState } from "./types";
 
 const GameContext = createContext<{
-  state: GameState;
-  dispatch: Dispatch<GameAction>;
+  state: GameSessionsState;
+  dispatch: Dispatch<GameSessionsAction>;
 } | null>(null);
 
 type GameProviderProps = {
@@ -12,7 +12,7 @@ type GameProviderProps = {
 };
 
 const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
-  const [state, dispatch] = useReducer(gameReducer, initialState);
+  const [state, dispatch] = useReducer(gameSessionsReducer, {});
 
   return (
     <GameContext.Provider value={{ state, dispatch }}>

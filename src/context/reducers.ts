@@ -1,80 +1,115 @@
-import { ACTIONS, GAMEPHASES, GAMEMODES, GameState, GameAction } from "./types";
+import {
+  GameSessionsState,
+  GameSessionsAction,
+  SinglePlayerState,
+  MultiPlayerState,
+} from "./types";
 
 // Initial State
-export const initialState: GameState = {
-  gameMode: GAMEMODES.SinglePayer,
-  gamePhase: GAMEPHASES.SetUp,
-  players: [
-    { id: 1, name: "Player 1", score: 0 },
-    { id: 2, name: "Player 2", score: 0 }, // In single-player, Player 2 is the "AI".
-  ],
-  currentTurn: 0, // Index of the current player
-  currentWord: "", // Word to guess (set by opponent or randomly in single-player)
-  guesses: [], // Array of guesses for the current round
-  feedback: [], // Feedback for each guess (green/yellow/gray statuses)
-  winner: null, // "Player 1", "Player 2", or null
+export const singlePlayerInitialState: SinglePlayerState = {
+  gameMode: "singleplayer",
+  gamePhase: "playing",
+  currentWord: "",
+  guesses: [],
+  winner: null,
 };
 
-export const gameReducer = (state: GameState, action: GameAction) => {
+export const multiplayerInitialState: MultiPlayerState = {
+  gameMode: "multiplayer",
+  gamePhase: "playing",
+  players: [
+    { id: 1, name: "Player 1", score: 0 },
+    { id: 2, name: "Player 2", score: 0 },
+  ],
+  currentTurn: 0,
+  currentWord: "",
+  guesses: [],
+  winner: null,
+};
+
+export const gameSessionsReducer = (
+  state: GameSessionsState,
+  action: GameSessionsAction
+): GameSessionsState => {
   switch (action.type) {
-    case ACTIONS.SetGameMode:
+    case "CREATE_SINGLEPLAYER_GAME":
       return {
         ...state,
-        gameMode: action.payload, // "singleplayer" or "multiplayer"
-        players:
-          action.payload === GAMEMODES.SinglePayer
-            ? [
-                { id: 1, name: "Player", score: 0 },
-                { id: 2, name: "AI", score: 0 },
-              ]
-            : initialState.players,
+        [action.payload.gameId]: {
+          gameMode: "singleplayer",
+          gamePhase: "playing",
+          currentWord: action.payload.word,
+          guesses: [],
+          winner: null,
+        },
       };
 
-    case ACTIONS.SetWord:
+    case "CREATE_MULTIPLAYER_GAME":
       return {
         ...state,
-        currentWord: action.payload.word,
-        guesses: [],
-        feedback: [],
-        gamePhase: GAMEPHASES.Guessing,
+        [action.payload.gameId]: {
+          gameMode: "multiplayer",
+          gamePhase: "playing",
+          players: action.payload.players.map((p) => ({ ...p, score: 0 })),
+          currentTurn: 0,
+          currentWord: action.payload.word,
+          guesses: [],
+          winner: null,
+        },
       };
 
-    case ACTIONS.MakeGuess:
+    case "MAKE_GUESS":
       return {
         ...state,
-        guesses: [...state.guesses, action.payload.guess],
+        [action.payload.gameId]: {
+          ...state[action.payload.gameId],
+          guesses: [
+            ...state[action.payload.gameId].guesses,
+            action.payload.guess,
+          ],
+        },
       };
 
-    case ACTIONS.UpdateFeedback:
-      return {
-        ...state,
-        feedback: [...state.feedback, action.payload.feedback],
-      };
+    case "END_GAME": {
+      const game = state[action.payload.gameId];
+      if (!game) return state; // Guard clause
 
-    case ACTIONS.SwitchTurn:
-      // In single-player mode, skip switching turns and continue guessing
-      return state.gameMode === GAMEMODES.SinglePayer
-        ? state
-        : {
-            ...state,
-            currentTurn: (state.currentTurn + 1) % state.players.length,
-            gamePhase: GAMEPHASES.SetUp,
-            currentWord: "",
-            guesses: [],
-            feedback: [],
-          };
+      if (game.gameMode === "singleplayer") {
+        return {
+          ...state,
+          [action.payload.gameId]: {
+            ...game,
+            winner:
+              typeof action.payload.winner === "boolean"
+                ? action.payload.winner
+                : null,
+          },
+        };
+      }
 
-    case ACTIONS.EndGame:
-      return {
-        ...state,
-        winner: action.payload.winner,
-        gamePhase: GAMEPHASES.Result,
-      };
+      if (game.gameMode === "multiplayer") {
+        return {
+          ...state,
+          [action.payload.gameId]: {
+            ...game,
+            winner:
+              typeof action.payload.winner === "string"
+                ? action.payload.winner
+                : null,
+          },
+        };
+      }
 
-    case ACTIONS.ResetGame:
-      return { ...initialState };
+      return state; // Fallback
+    }
+
+    case "REMOVE_GAME": {
+      const newState = { ...state };
+      delete newState[action.payload.gameId];
+      return newState;
+    }
 
     default:
-      throw new Error(`Unhandled action type: ${action.type}`);
+      return state;
   }
 };
