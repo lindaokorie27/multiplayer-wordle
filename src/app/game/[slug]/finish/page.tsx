@@ -1,4 +1,4 @@
-export default function Result() {
+const Result = () => {
   return (
     <div className="items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
       <p className="font-bold text-base md:text-2xl">Game finished!</p>
@@ -9,4 +9,5 @@ export default function Result() {
       <p className="font-bold text-base md:text-4xl">P1 wins!</p>
     </div>
   );
-}
+};
+export default Result;
