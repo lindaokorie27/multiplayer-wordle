@@ -1,8 +1,19 @@
+"use client";
 import Board from "@/components/Board";
 import Keyboard from "@/components/Keyboard";
 import GameStatusPanel from "@/components/GameStatusPanel";
+import { useGameSessions } from "@/context/GameContext";
+import { notFound, useParams } from "next/navigation";
 
-const Game = () => {
+const GamePage: React.FC = () => {
+  const { state } = useGameSessions();
+  const params = useParams<{ gameId: string }>();
+
+  const gameState = state[params.gameId];
+
+  if (!gameState) {
+    return notFound();
+  }
   return (
     <div className="h-screen">
       {/* Player scores and game status - show only in two player game*/}
@@ -65,4 +76,4 @@ const Game = () => {
     </div>
   );
 };
-export default Game;
+export default GamePage;
