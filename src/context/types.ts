@@ -27,11 +27,15 @@ export type Player = {
   name: string;
   score: number;
 };
+export type Tile = {
+  value: string;
+  status?: string;
+};
 
 export type SinglePlayerState = {
   gameMode: "singleplayer";
   gamePhase: GamePhases;
-  currentWord: string;
+  currentSecret: string;
   guesses: string[];
   winner: boolean | null;
 };
@@ -41,12 +45,12 @@ export type MultiPlayerState = {
   gamePhase: GamePhases;
   players: Player[];
   currentTurn: number;
-  currentWord: string;
+  currentSecret: string;
   guesses: string[];
   winner: string | null;
 };
 
-type GameSession = SinglePlayerState | MultiPlayerState;
+export type GameSession = SinglePlayerState | MultiPlayerState;
 
 export type GameSessionsState = {
   [gameId: string]: GameSession;

@@ -9,7 +9,7 @@ import {
 export const singlePlayerInitialState: SinglePlayerState = {
   gameMode: "singleplayer",
   gamePhase: "playing",
-  currentWord: "",
+  currentSecret: "",
   guesses: [],
   winner: null,
 };
@@ -22,7 +22,7 @@ export const multiplayerInitialState: MultiPlayerState = {
     { id: 2, name: "Player 2", score: 0 },
   ],
   currentTurn: 0,
-  currentWord: "",
+  currentSecret: "",
   guesses: [],
   winner: null,
 };
@@ -38,7 +38,7 @@ export const gameSessionsReducer = (
         [action.payload.gameId]: {
           gameMode: "singleplayer",
           gamePhase: "playing",
-          currentWord: action.payload.word,
+          currentSecret: action.payload.word,
           guesses: [],
           winner: null,
         },
@@ -52,7 +52,7 @@ export const gameSessionsReducer = (
           gamePhase: "playing",
           players: action.payload.players.map((p) => ({ ...p, score: 0 })),
           currentTurn: 0,
-          currentWord: action.payload.word,
+          currentSecret: action.payload.word,
           guesses: [],
           winner: null,
         },
