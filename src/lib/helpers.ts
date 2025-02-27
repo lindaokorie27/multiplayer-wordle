@@ -1,3 +1,5 @@
+import { Tile } from "@/context/types";
+
 export type CharStatus = "ABSENT" | "PRESENT" | "CORRECT";
 
 export type CharValue =
@@ -29,16 +31,10 @@ export type CharValue =
   | "M";
 
 export type KeyValue = CharValue | "ENTER" | "DELETE";
-export type TileType = {
-  value?: string;
-  status?: string;
-};
-
-//TODO: Get proper solution and replace here.
-const solution = "random";
 
 export const getKeyStatuses = (
-  guesses: string[]
+  guesses: string[],
+  solution: string
 ): { [key: string]: CharStatus } => {
   const charObj: { [key: string]: CharStatus } = {};
 
@@ -60,3 +56,21 @@ export const getKeyStatuses = (
   });
   return charObj;
 };
+
+const TRIES = 6;
+export const WORD_LENGTH = 5;
+
+export const getEmptyTiles = () => {
+  const tiles: Tile[][] = new Array(TRIES);
+  for (let i = 0; i < TRIES; i++) {
+    tiles[i] = new Array(WORD_LENGTH).fill({ value: "", status: "" });
+  }
+  return tiles;
+};
+
+export function getRowWord(row: Tile[]) {
+  return row
+    .map((x) => x.value.trim())
+    .filter(Boolean)
+    .join("");
+}
