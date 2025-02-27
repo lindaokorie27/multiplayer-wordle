@@ -12,6 +12,7 @@ import { useForm } from "react-hook-form";
 import { nanoid } from "nanoid";
 import { z } from "zod";
 import { useGameSessions } from "@/context/GameContext";
+import * as api from "../../lib/api-client";
 
 const formSchema = z.object({
   mode: z.string().regex(/singleplayer|multiplayer/gm),
@@ -30,12 +31,15 @@ const SetupForm: React.FC<SetupFormProps> = ({ onDone }) => {
     },
   });
 
-  const onSubmit = (values: z.infer<typeof formSchema>) => {
+  const onSubmit = async (values: z.infer<typeof formSchema>) => {
     const gameId = nanoid(7);
-    const word = "SECRET"; // Replace with a word generation logic
+    const { secret } = await api.getSecretWord();
 
     if (values.mode === "singleplayer") {
-      dispatch({ type: "CREATE_SINGLEPLAYER_GAME", payload: { gameId, word } });
+      dispatch({
+        type: "CREATE_SINGLEPLAYER_GAME",
+        payload: { gameId, word: secret },
+      });
     } else {
       const players = [
         { id: 1, name: "Player 1" },
@@ -43,7 +47,7 @@ const SetupForm: React.FC<SetupFormProps> = ({ onDone }) => {
       ];
       dispatch({
         type: "CREATE_MULTIPLAYER_GAME",
-        payload: { gameId, players, word },
+        payload: { gameId, players, word: secret },
       });
     }
     if (onDone) {
