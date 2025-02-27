@@ -1,14 +1,14 @@
 import { FC } from "react";
 import Tile from "./Tile";
 
-import { TileType } from "@/lib/statuses";
+import { Tile as TileType } from "@/context/types";
 
-type BoardProps = {
-  tiles: Array<Array<TileType>>;
+type GridProps = {
+  tiles: TileType[][];
   keys?: Array<string>;
   rowStatus?: string;
 };
-const Board: FC<BoardProps> = (props) => {
+const Grid: FC<GridProps> = (props) => {
   const { tiles } = props;
   return (
     <div className="grid grid-cols-5 gap-2 w-[calc(3.5rem_*_5.5)] mx-auto my-7">
@@ -20,4 +20,4 @@ const Board: FC<BoardProps> = (props) => {
     </div>
   );
 };
-export default Board;
+export default Grid;
