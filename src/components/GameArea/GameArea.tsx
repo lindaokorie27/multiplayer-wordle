@@ -6,6 +6,7 @@ import GameStatusPanel from "../StatusPanel";
 import { Dispatch, useState } from "react";
 import { CharValue, getEmptyTiles, getRowWord } from "@/lib/helpers";
 import { GameSession, GameSessionsAction, Tile } from "@/context/types";
+import * as api from "../../lib/api-client";
 
 type GameAreaProps = {
   gameId: string;
@@ -45,18 +46,22 @@ const GameArea: React.FC<GameAreaProps> = ({
     setCurentCol(newCol);
   };
 
-  const handleEnter = () => {
+  const handleEnter = async () => {
     const rowGuess = getRowWord(tiles[currentRow]);
     if (rowGuess.length !== 5) {
       toast("Make a 5-lettered guess");
       return;
     }
-    //check if word exists
+    const wordExists = await api.verifyWord(rowGuess.toLowerCase());
+    if (!wordExists) {
+      toast("Not a valid word!");
+      return;
+    }
     dispatchAction({
       type: "MAKE_GUESS",
       payload: { gameId, guess: rowGuess },
     });
-    //update row with statuses
+
     setCurrentRow(currentRow + 1);
     setCurentCol(0);
   };

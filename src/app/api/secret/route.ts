@@ -1,18 +1,13 @@
-import { NextApiRequest, NextApiResponse } from "next";
+import { NextResponse } from "next/server";
 import data from "../../../constants/words.json";
 
 export type SecretApiResponse = {
   secret: string;
+  error?: string;
 };
 
-export default function handler(
-  req: NextApiRequest,
-  res: NextApiResponse<SecretApiResponse>
-) {
+export async function GET() {
   const { length, items } = data;
-
-  const randomInt = Math.floor(Math.random() * (length + 1));
-  const secret = items[randomInt];
-
-  res.status(200).json({ secret });
+  const randomWord = items[Math.floor(Math.random() * length)];
+  return NextResponse.json({ secret: randomWord });
 }
