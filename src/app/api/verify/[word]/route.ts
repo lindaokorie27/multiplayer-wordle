@@ -6,10 +6,9 @@ export type VerifyApiResponse = {
   valid: boolean;
 };
 
-export async function GET(
-  request: Request,
-  { params }: { params: { word: string } }
-) {
+type ParamsType = { params: { word: string } };
+
+export async function GET(request: Request, { params }: ParamsType) {
   const { items } = data;
 
   const { word } = params;

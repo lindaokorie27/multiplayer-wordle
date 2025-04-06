@@ -3,7 +3,6 @@ import data from "../../../constants/words.json";
 
 export type SecretApiResponse = {
   secret: string;
-  error?: string;
 };
 
 export async function GET() {
