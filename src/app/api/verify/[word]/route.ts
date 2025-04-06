@@ -1,4 +1,5 @@
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+
 import data from "../../../../constants/words.json";
 import { WORD_LENGTH } from "../../../../lib/helpers";
 
@@ -7,12 +8,12 @@ export type VerifyApiResponse = {
 };
 
 export async function GET(
-  request: Request,
-  context: { params: { word: string } }
+  request: NextRequest,
+  { params }: { params: Promise<{ word: string }> }
 ) {
   const { items } = data;
 
-  const { word } = context.params;
+  const word = (await params).word;
 
   const valid =
     word && word.length === WORD_LENGTH ? items.includes(word) : false;
