@@ -1,4 +1,4 @@
-import { TileType as TileProps } from "@/lib/statuses";
+import { Tile as TileProps } from "@/context/types";
 import classNames from "classnames";
 import { FC } from "react";
 

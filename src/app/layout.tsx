@@ -1,3 +1,4 @@
+import { Toaster } from "@/components/ui/sonner";
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 
@@ -33,6 +34,7 @@ export default function RootLayout({
       >
         <Providers>
           <MainContainer>{children}</MainContainer>
+          <Toaster />
           <footer className="flex-wrap items-center justify-items-center mt-3 py-2">
             <p className="flex gap-1">
               Created with &#x2764;&#xfe0f; by

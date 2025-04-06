@@ -1,15 +1,21 @@
-import { KeyValue, getKeyStatuses } from "@/lib/statuses";
+import { CharValue, KeyValue, getKeyStatuses } from "@/lib/helpers";
 import Key from "./Key";
 
 type Props = {
-  onChar: (value: string) => void;
+  onChar: (value: CharValue) => void;
   onDelete: () => void;
   onEnter: () => void;
   guesses: string[];
+  currentSecret: string;
 };
-const Keyboard = ({ onChar, onDelete, onEnter, guesses }: Props) => {
-  const charStatuses = getKeyStatuses(guesses);
-  console.log(charStatuses);
+const Keyboard = ({
+  onChar,
+  onDelete,
+  onEnter,
+  guesses,
+  currentSecret,
+}: Props) => {
+  const charStatuses = getKeyStatuses(guesses, currentSecret);
 
   const onClick = (value: KeyValue) => {
     if (value === "ENTER") {

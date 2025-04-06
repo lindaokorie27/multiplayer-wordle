@@ -1,8 +1,8 @@
-import { KeyValue, CharStatus } from "@/lib/statuses";
+import { KeyValue, CharStatus } from "@/lib/helpers";
 import classNames from "classnames";
 import { FC, ReactNode } from "react";
 
-type TileProps = {
+type KeyProps = {
   children?: ReactNode;
   value: KeyValue;
   status?: CharStatus;
@@ -10,8 +10,8 @@ type TileProps = {
   onClick: (value: KeyValue) => void;
 };
 
-const Key: FC<TileProps> = (props) => {
-  const { value, status } = props;
+const Key: FC<KeyProps> = (props) => {
+  const { value, status, onClick, children } = props;
   const classes = classNames(
     "flex items-center justify-center rounded mx-0.5 p-3 text-xs md:text-base lg:text-xl font-bold cursor-pointer",
     {
@@ -23,6 +23,10 @@ const Key: FC<TileProps> = (props) => {
         status === "PRESENT",
     }
   );
-  return <button className={classes}>{value}</button>;
+  return (
+    <button className={classes} onClick={() => onClick(value)}>
+      {children ? children : value}
+    </button>
+  );
 };
 export default Key;
