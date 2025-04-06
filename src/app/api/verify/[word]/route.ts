@@ -6,12 +6,13 @@ export type VerifyApiResponse = {
   valid: boolean;
 };
 
-type ParamsType = { params: { word: string } };
-
-export async function GET(request: Request, { params }: ParamsType) {
+export async function GET(
+  request: Request,
+  context: { params: { word: string } }
+) {
   const { items } = data;
 
-  const { word } = params;
+  const { word } = context.params;
 
   const valid =
     word && word.length === WORD_LENGTH ? items.includes(word) : false;
