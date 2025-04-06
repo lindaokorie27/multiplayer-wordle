@@ -15,7 +15,7 @@ import { useGameSessions } from "@/context/GameContext";
 import * as api from "../../lib/api-client";
 
 const formSchema = z.object({
-  mode: z.string().regex(/singleplayer|multiplayer/gm),
+  mode: z.string().regex(/singleplayer|multiplayer/),
 });
 
 type SetupFormProps = {

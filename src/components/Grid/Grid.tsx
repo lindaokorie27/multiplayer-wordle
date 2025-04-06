@@ -11,7 +11,7 @@ type GridProps = {
 const Grid: FC<GridProps> = (props) => {
   const { tiles } = props;
   return (
-    <div className="grid grid-cols-5 gap-2 w-[calc(3.5rem_*_5.5)] mx-auto my-7">
+    <div className="grid grid-cols-5 gap-2 w-[calc(3.5rem*5.5)] mx-auto my-7">
       {tiles.map((tileRow) => {
         return tileRow.map((tileDetails, index) => (
           <Tile key={index} {...tileDetails} />

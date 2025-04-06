@@ -20,7 +20,7 @@ const GameArea: React.FC<GameAreaProps> = ({
 }) => {
   const [tiles, setTiles] = useState<Array<Array<Tile>>>(getEmptyTiles);
   const [currentRow, setCurrentRow] = useState(0); // keep track of the row in the grid.
-  const [currentCol, setCurentCol] = useState(0); // keep track of current column.
+  const [currentCol, setCurrentCol] = useState(0); // keep track of current column.
 
   const handleCharChange = (charValue: CharValue) => {
     const rowGuess = getRowWord(tiles[currentRow]);
@@ -32,7 +32,7 @@ const GameArea: React.FC<GameAreaProps> = ({
 
     tilesCopy[currentRow][currentCol] = newTile;
     setTiles(tilesCopy);
-    setCurentCol(currentCol + 1);
+    setCurrentCol(currentCol + 1);
   };
 
   const handleDelete = () => {
@@ -43,7 +43,7 @@ const GameArea: React.FC<GameAreaProps> = ({
 
     tilesCopy[currentRow][newCol] = { value: "" };
     setTiles(tilesCopy);
-    setCurentCol(newCol);
+    setCurrentCol(newCol);
   };
 
   const handleEnter = async () => {
@@ -63,7 +63,7 @@ const GameArea: React.FC<GameAreaProps> = ({
     });
 
     setCurrentRow(currentRow + 1);
-    setCurentCol(0);
+    setCurrentCol(0);
   };
 
   return (
