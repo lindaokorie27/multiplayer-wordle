@@ -16,7 +16,6 @@ const Keyboard = ({
   currentSecret,
 }: Props) => {
   const charStatuses = getKeyStatuses(guesses, currentSecret);
-
   const onClick = (value: KeyValue) => {
     if (value === "ENTER") {
       return onEnter();

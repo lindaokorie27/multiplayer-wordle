@@ -37,16 +37,16 @@ export const getKeyStatuses = (
   solution: string
 ): { [key: string]: CharStatus } => {
   const charObj: { [key: string]: CharStatus } = {};
-
+  const solutionUpper = solution.toLocaleUpperCase();
   //iterate through characters in the guesses
   guesses.forEach((word) => {
     word.split("").forEach((letter, index) => {
-      if (!solution.includes(letter)) {
+      if (!solutionUpper.includes(letter)) {
         // does not include letter then absent
         return (charObj[letter] = "ABSENT");
       }
 
-      if (letter === solution[index]) {
+      if (letter === solutionUpper[index]) {
         // includes letter in correct position
         return (charObj[letter] = "CORRECT");
       }
@@ -57,7 +57,25 @@ export const getKeyStatuses = (
   return charObj;
 };
 
-const TRIES = 6;
+export const getTileCorrectness = (tiles: Tile[], solution: string): Tile[] => {
+  const newTiles = [...tiles];
+
+  newTiles.forEach((tile, index) => {
+    if (!solution.includes(tile.value.toLocaleLowerCase())) {
+      // does not include letter then absent
+      return (newTiles[index].status = "ABSENT");
+    } else if (tile.value.toLocaleLowerCase() === solution[index]) {
+      // includes letter in correct position
+      return (newTiles[index].status = "CORRECT");
+    }
+
+    return (newTiles[index].status = "PRESENT");
+  });
+
+  return newTiles;
+};
+
+export const TRIES = 6;
 export const WORD_LENGTH = 5;
 
 export const getEmptyTiles = () => {

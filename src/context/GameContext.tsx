@@ -1,5 +1,5 @@
 import { createContext, useReducer, Dispatch, useContext } from "react";
-import { gameSessionsReducer } from "./reducers";
+import { gameSessionsReducer, getInitialState } from "./reducers";
 import { GameSessionsAction, GameSessionsState } from "./types";
 
 interface GameSessionsContextType {
@@ -24,7 +24,11 @@ type GameProviderProps = {
 };
 
 const GameProvider: React.FC<GameProviderProps> = ({ children }) => {
-  const [state, dispatch] = useReducer(gameSessionsReducer, {});
+  const [state, dispatch] = useReducer(
+    gameSessionsReducer,
+    undefined,
+    getInitialState
+  );
 
   return (
     <GameSessionsContext.Provider value={{ state, dispatch }}>
