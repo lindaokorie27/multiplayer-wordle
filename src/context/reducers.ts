@@ -34,10 +34,11 @@ export const multiplayerInitialState: MultiPlayerState = {
 };
 
 export const getInitialState = (): GameSessionsState => {
-  const savedState = localStorage.getItem(GAME_STATE_KEY);
-  return savedState
-    ? (JSON.parse(savedState) as GameSessionsState)
-    : ({} as GameSessionsState);
+  if (typeof window !== "undefined" && window.localStorage) {
+    const savedState = localStorage.getItem(GAME_STATE_KEY);
+    return savedState ? (JSON.parse(savedState) as GameSessionsState) : null;
+  }
+  return null;
 };
 
 export const gameSessionsReducer = (
