@@ -4,20 +4,21 @@ import Keyboard from "../Keyboard";
 import Grid from "../Grid";
 import GameStatusPanel from "../StatusPanel";
 import { Dispatch, useState } from "react";
-import { CharValue, getEmptyTiles, getRowWord } from "@/lib/helpers";
+import {
+  CharValue,
+  getEmptyTiles,
+  getRowWord,
+  getTileCorrectness,
+  TRIES,
+} from "@/lib/helpers";
 import { GameSession, GameSessionsAction, Tile } from "@/context/types";
 import * as api from "../../lib/api-client";
 
 type GameAreaProps = {
-  gameId: string;
   state: GameSession;
   dispatchAction: Dispatch<GameSessionsAction>;
 };
-const GameArea: React.FC<GameAreaProps> = ({
-  gameId,
-  state,
-  dispatchAction,
-}) => {
+const GameArea: React.FC<GameAreaProps> = ({ state, dispatchAction }) => {
   const [tiles, setTiles] = useState<Array<Array<Tile>>>(getEmptyTiles);
   const [currentRow, setCurrentRow] = useState(0); // keep track of the row in the grid.
   const [currentCol, setCurrentCol] = useState(0); // keep track of current column.
@@ -46,6 +47,39 @@ const GameArea: React.FC<GameAreaProps> = ({
     setCurrentCol(newCol);
   };
 
+  const checkEntry = (entry: string) => {
+    const isLastRow = currentRow === TRIES - 1;
+
+    // check correctness of word
+    const tilesWithCorrectness = getTileCorrectness(
+      tiles[currentRow],
+      state.currentSecret
+    );
+
+    // set tiles status for the specific row
+    const tilesCopy = tiles.map((row) => [...row]);
+    tilesCopy[currentRow] = tilesWithCorrectness;
+    setTiles(tilesCopy);
+
+    // check if word is winning word
+    const won = state.currentSecret === entry.toLocaleLowerCase();
+    if (won) {
+      toast("Well Done! You've won!");
+      dispatchAction({
+        type: "END_GAME",
+        payload: { winner: won },
+      });
+      // check if lastrow
+    } else if (isLastRow) {
+      toast("Better luck next time! You are out of tries.");
+    }
+    // conditional rows and columns
+    if (!isLastRow) {
+      setCurrentRow(currentRow + 1);
+      setCurrentCol(0);
+    }
+  };
+
   const handleEnter = async () => {
     const rowGuess = getRowWord(tiles[currentRow]);
     if (rowGuess.length !== 5) {
@@ -59,11 +93,10 @@ const GameArea: React.FC<GameAreaProps> = ({
     }
     dispatchAction({
       type: "MAKE_GUESS",
-      payload: { gameId, guess: rowGuess },
+      payload: { guess: rowGuess },
     });
 
-    setCurrentRow(currentRow + 1);
-    setCurrentCol(0);
+    checkEntry(rowGuess);
   };
 
   return (

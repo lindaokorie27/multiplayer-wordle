@@ -19,7 +19,6 @@ const CreateGame = () => {
         Go Back
       </Button>
       <div>
-        <h1 className="font-extrabold text-3xl mb-5">Create Game</h1>
         <SetupForm onDone={onSetupDone} />
       </div>
     </div>

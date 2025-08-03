@@ -12,6 +12,7 @@ type KeyProps = {
 
 const Key: FC<KeyProps> = (props) => {
   const { value, status, onClick, children } = props;
+
   const classes = classNames(
     "flex items-center justify-center rounded mx-0.5 p-3 text-xs md:text-base lg:text-xl font-bold cursor-pointer",
     {

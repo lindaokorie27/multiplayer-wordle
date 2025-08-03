@@ -11,10 +11,10 @@ export type GameSessionsAction =
         word: string;
       };
     }
-  | { type: "MAKE_GUESS"; payload: { gameId: string; guess: string } }
+  | { type: "MAKE_GUESS"; payload: { guess: string } }
   | {
       type: "END_GAME";
-      payload: { gameId: string; winner: string | boolean | null };
+      payload: { winner: string | boolean | null };
     }
   | { type: "REMOVE_GAME"; payload: { gameId: string } };
 
@@ -33,6 +33,7 @@ export type Tile = {
 };
 
 export type SinglePlayerState = {
+  gameId: string | null;
   gameMode: "singleplayer";
   gamePhase: GamePhases;
   currentSecret: string;
@@ -41,6 +42,7 @@ export type SinglePlayerState = {
 };
 
 export type MultiPlayerState = {
+  gameId: string | null;
   gameMode: "multiplayer";
   gamePhase: GamePhases;
   players: Player[];
@@ -52,6 +54,4 @@ export type MultiPlayerState = {
 
 export type GameSession = SinglePlayerState | MultiPlayerState;
 
-export type GameSessionsState = {
-  [gameId: string]: GameSession;
-};
+export type GameSessionsState = GameSession | null;
